@@ -22,6 +22,9 @@ public class GunShot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (GlobalCS.gameOver) {
+			return;
+		}
 
 		if(Input.GetMouseButtonDown(0)){
 			ShootSound.Play ();

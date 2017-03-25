@@ -8,6 +8,7 @@ public class EnemyAnimCtrl : MonoBehaviour {
 	int health = 100;
 	float birthTime = 0.0f;
 	float deadTime;
+	float deadKeepTime = 5.0f;
 
 	public Transform player;
 	float disAttach = 2.0f;
@@ -18,6 +19,7 @@ public class EnemyAnimCtrl : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 		anim.SetInteger ("state", 0);
 		birthTime = Time.time;
+		deadTime = deadKeepTime;
 	}
 
 
@@ -26,6 +28,10 @@ public class EnemyAnimCtrl : MonoBehaviour {
 		//死亡
 		if (health <= 0) {
 			anim.SetInteger ("state", 3);
+			deadTime -= Time.deltaTime;
+			if(deadTime < 0){
+				Destroy (gameObject);
+			}
 		} else {
 			if (Time.time - birthTime > 2) {
 				if (Vector3.SqrMagnitude (transform.position - player.position) > disAttach * disAttach) {

@@ -17,14 +17,22 @@ public class FindTarger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//跑状态寻路
 		if(anim.GetInteger("state") == 1){
 			agent.enabled = true;
 			agent.SetDestination (player.position);
 		}
+
+		//死亡后，停止寻路
 		if(anim.GetInteger("state") == 3){
 			agent.enabled = false;
 		}
 
+		if(Vector3.SqrMagnitude(transform.position - player.transform.position) < 2.0f){
+			GlobalCS.gameOver = true;
+			gameObject.SetActive (false);
+			GetComponent<FindTarger> ().enabled = false;
+		}
 
 	}
 }
