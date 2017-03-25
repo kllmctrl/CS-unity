@@ -5,11 +5,12 @@ using UnityEngine;
 public class FindTarger : MonoBehaviour {
 
 	UnityEngine.AI.NavMeshAgent agent;
-	public Transform player;
+	Transform player;
 	Animator anim;
 
 	// Use this for initialization
 	void Start () {
+		player = GameObject.FindWithTag ("player").transform;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.enabled = false;
 		anim = GetComponent<Animator> ();

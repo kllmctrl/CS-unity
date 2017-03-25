@@ -10,12 +10,13 @@ public class EnemyAnimCtrl : MonoBehaviour {
 	float deadTime;
 	float deadKeepTime = 5.0f;
 
-	public Transform player;
+	Transform player;
 	float disAttach = 2.0f;
 
 
 	// Use this for initialization
 	void Start () {
+		player = GameObject.FindWithTag ("player").transform;
 		anim = GetComponent<Animator> ();
 		anim.SetInteger ("state", 0);
 		birthTime = Time.time;
