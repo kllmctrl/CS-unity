@@ -13,6 +13,8 @@ public class GunShot : MonoBehaviour {
 	AudioSource ShootSound;
 	public GameObject bulletHenJi;
 
+	EnemyAnimCtrl enemy;
+
 	// Use this for initialization
 	void Start () {
 		ShootSound = GetComponent<AudioSource> ();
@@ -26,12 +28,24 @@ public class GunShot : MonoBehaviour {
 
 			Ray ray = Camera.main.ScreenPointToRay (new Vector2(Screen.width * 0.5f, Screen.height * 0.5f));
 			RaycastHit hit;
-			if(Physics.Raycast(ray, out hit)){
+			if(Physics.Raycast(ray, out hit, 100, 1<<9 | 1<<10)){ //100m 范围内：第九、第十层
 				//Debug.Log ("####  hit name  ####" + hit.transform.name);
-				//clone Henji
-				GameObject henJi = (GameObject)Instantiate(bulletHenJi);
-				henJi.transform.position = hit.point;
-				henJi.transform.LookAt (hit.point + hit.normal);
+
+				//墙
+				if(hit.transform.gameObject.layer == 10){
+					//clone Henji
+					GameObject henJi = (GameObject)Instantiate(bulletHenJi);
+					henJi.transform.position = hit.point;
+					henJi.transform.LookAt (hit.point + hit.normal);
+				}
+
+				//敌人
+				if(hit.transform.gameObject.layer == 9){
+					enemy = hit.transform.GetComponent<EnemyAnimCtrl> ();
+					enemy.healthCtrl ();
+
+				}
+
 			}
 
 			

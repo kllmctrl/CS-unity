@@ -1,0 +1,52 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyAnimCtrl : MonoBehaviour {
+
+	Animator anim;
+	int health = 100;
+	float birthTime = 0.0f;
+	float deadTime;
+
+	public Transform player;
+	float disAttach = 2.0f;
+
+
+	// Use this for initialization
+	void Start () {
+		anim = GetComponent<Animator> ();
+		anim.SetInteger ("state", 0);
+		birthTime = Time.time;
+	}
+
+
+	// Update is called once per frame
+	void Update () {
+		//死亡
+		if (health <= 0) {
+			anim.SetInteger ("state", 3);
+		} else {
+			if (Time.time - birthTime > 2) {
+				if (Vector3.SqrMagnitude (transform.position - player.position) > disAttach * disAttach) {
+					//攻击
+					anim.SetInteger ("state", 1);
+				} else {
+					//跑
+					anim.SetInteger ("state", 2);
+				}
+			} else {
+				anim.SetInteger ("state", 0);
+			}
+
+		}
+	}
+
+
+	//掉血
+	public void healthCtrl(){
+		health -= 30;
+		Debug.Log ("####  health  ####" + health);
+	}
+
+}
